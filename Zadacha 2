@@ -3,20 +3,19 @@
 #Каждый заказ представляет собой строку вида Покупатель - название пиццы - количество заказанных пицц. 
 #Реализуйте код, который выводит список покупателей и их заказов по алфавиту. 
 #Учитывайте, что один человек может заказать одно и то же несколько раз.
-n = int(input('Введите кол-во заказов: '))
-d = {}
-for _ in range(n):
-    order = input()
-    _, fio, pizza, amount = order.rsplit(maxsplit=3)
-    amount = int(amount)
-    if fio not in d:
-        d[fio] = {pizza: amount}
-    else:
-        if pizza not in d[fio]:
-            d[fio] |= {pizza: amount}
+database=dict()
+numbers_orders=int(input('Введите кол-во заказов: '))
+for number in range(1, numbers_orders+1):
+    order=input(f'{number} заказ: ').split()
+    if order[0] in database:
+        if order[1] in database[order[0]]:
+            database[order[0]][order[1]]+=int(order[2])
         else:
-            d[fio][pizza] += amount
-for fio, order in sorted(d.items()):
-    print(f'{fio}:')
-    for pizza, amount in sorted(order.items()):
-        print('    ', pizza, amount)
+            database[order[0]][order[1]]= order[2]
+    else:
+        database[order[0]]=dict({order[1]: int(order[2])})
+        
+for i in sorted(database):
+    print(f'\n{i}:')
+    for j in sorted(database[i]):
+        print(f'\t{j}:{database[i][j]}')
