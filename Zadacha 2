@@ -1,0 +1,22 @@
+#В базе данных интернет-магазина “PizzaTime” хранятся данные о том, кто, что и сколько заказывал у них в определённый период. 
+#Вам необходимо структурировать эту информацию, а также понять сколько всего пицц купил каждый заказчик. На вход в программу подаётся N заказов. 
+#Каждый заказ представляет собой строку вида Покупатель - название пиццы - количество заказанных пицц. 
+#Реализуйте код, который выводит список покупателей и их заказов по алфавиту. 
+#Учитывайте, что один человек может заказать одно и то же несколько раз.
+n = int(input('Введите кол-во заказов: '))
+d = {}
+for _ in range(n):
+    order = input()
+    _, fio, pizza, amount = order.rsplit(maxsplit=3)
+    amount = int(amount)
+    if fio not in d:
+        d[fio] = {pizza: amount}
+    else:
+        if pizza not in d[fio]:
+            d[fio] |= {pizza: amount}
+        else:
+            d[fio][pizza] += amount
+for fio, order in sorted(d.items()):
+    print(f'{fio}:')
+    for pizza, amount in sorted(order.items()):
+        print('    ', pizza, amount)
